@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Activity, Note
+from todolist.models import Activity, Note
 
 class NoteSerializer(serializers.ModelSerializer):
     class Meta:
