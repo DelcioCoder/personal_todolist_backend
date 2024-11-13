@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from rest_framework import generics
 from todolist.models import Activity, Note
+from rest_framework.permissions import IsAuthenticated
 from .serializers import ActivitySerializer, NoteSerializer
 # Create your views here.
 
@@ -10,12 +11,14 @@ from .serializers import ActivitySerializer, NoteSerializer
 class ActivityListCreateView(generics.ListCreateAPIView):
     queryset = Activity.objects.all()
     serializer_class = ActivitySerializer
+    permission_classes = [IsAuthenticated] # Garante que o usuário está autenticado
 
 
 #Exibe, actualiza ou deleta uma actividade específica
 class ActivityDetailView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Activity.objects.all()
     serializer_class = ActivitySerializer
+    permission_classes = [IsAuthenticated] # Garante que o usuário está autenticado
 
 
 
@@ -23,9 +26,11 @@ class ActivityDetailView(generics.RetrieveUpdateDestroyAPIView):
 class NoteListCreateView(generics.ListCreateAPIView):
     queryset = Note.objects.all()
     serializer_class = NoteSerializer
+    permission_classes = [IsAuthenticated] # Garante que o usuário está autenticado
 
 
 #Exibe, actualiza ou deleta uma nota específica
 class NoteDetailView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Note.objects.all()
     serializer_class = NoteSerializer
+    permission_classes = [IsAuthenticated] # Garante que o usuário está autenticado
