@@ -3,7 +3,7 @@ from .views import ActivityListCreateView, ActivityDetailView, NoteListCreateVie
 
 
 urlpatterns = [
-    # Endpoints para atividaders
+    # Endpoints para atividades
     path('activities/', ActivityListCreateView.as_view(), name='activity-list-create'),
     path('activities/<int:pk>/', ActivityDetailView.as_view(), name='activity-detail'),
 
