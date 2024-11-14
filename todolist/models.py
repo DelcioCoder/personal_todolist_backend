@@ -3,9 +3,21 @@ from django.core.exceptions import ValidationError
 from django.core.validators import MaxValueValidator
 
 
+
+class Modality(models.Model):
+    # Modalidade do desafio, ex: "Exercício Físico", "Leitura"
+    name = models.CharField(max_length=100, unique=True)
+    description = models.TextField(blank=True)
+
+    def __str__(self):
+        return self.name
+    
+    class Meta:
+        verbose_name_plural = 'Modalities'
+
 class Activity(models.Model):
-    name = models.CharField(max_length=100)
     finished = models.BooleanField(default=False)
+    modality = models.ForeignKey(Modality, on_delete=models.CASCADE, related_name='activities')
     date_added = models.DateTimeField(auto_now_add=True)
 
     #Mantém o dia máximo de 30 dias para cada actividade individual
@@ -14,14 +26,14 @@ class Activity(models.Model):
 
     def clean(self):
 
-        # Limita o número de dias a no máximo 30 dias, aplicado globalmente ao desafio
+        # Limita o número de dias de actividades por modalidade  a no máximo 30 dias, aplicado globalmente ao desafio
 
-        if Activity.objects.filter(day__lte=30).count() >= 30: #O sufixo lte vem de less than or equal, ou seja, menor ou igual.
+        if Activity.objects.filter(day__lte=30, modality=self.modality).count() >= 30: #O sufixo lte vem de less than or equal, ou seja, menor ou igual.
             raise ValidationError("O número total de dias não pode exceder 30 dias para o desadio.") 
         
 
     def __str__(self):
-        return self.name
+        return f'{self.modality.name} - Dia {self.day}'
     
     class Meta:
         ordering = ['date_added']
@@ -34,7 +46,7 @@ class Note(models.Model):
     date_added = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return f"{self.activity.name} - Nota do dia {self.activity.day}: {self.text[:50]}..."
+        return f"{self.activity.modality.name} - Nota do dia {self.activity.day}: {self.text[:50]}..."
     
     class Meta:
         ordering =  ['date_added']
