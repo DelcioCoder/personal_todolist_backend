@@ -70,6 +70,23 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
+from datetime import timedelta
+
+SIMPLE_JWT = {
+    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=40),  # Tempo de expiração do token de acesso
+    'REFRESH_TOKEN_LIFETIME': timedelta(days=1),     # Tempo de expiração do token de refresh
+    'ROTATE_REFRESH_TOKENS': True,                    # Se o refresh token deve ser rotacionado
+    'BLACKLIST_AFTER_ROTATION': True,                 # Se o refresh token deve ser desativado após rotação
+    'ALGORITHM': 'HS256',                             # Algoritmo de assinatura
+    'SIGNING_KEY': SECRET_KEY,                        # Chave secreta para assinar o token
+    'VERIFYING_KEY': None,                            # Chave pública para verificar o token (se usar)
+    'AUTH_HEADER_TYPES': ('Bearer',),                 # Tipo de header usado
+    'USER_ID_FIELD': 'id',                            # Campo que representa o usuário no JWT
+    'USER_ID_CLAIM': 'user_id',                       # Nome do campo para o ID do usuário no payload
+}
+
+
+
 ROOT_URLCONF = 'backend.urls'
 
 CORS_ALLOW_ALL_ORIGINS = True

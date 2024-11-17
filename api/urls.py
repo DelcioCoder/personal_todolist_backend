@@ -6,7 +6,7 @@ urlpatterns = [
     path('activities/', ActivityListCreateView.as_view(), name='activity-list-create'),
     path('activities/<int:pk>/', ActivityDetailView.as_view(), name='activity-detail'),
 
-    # Endpoints para notas
-    path('notes/', NoteListCreateView.as_view(), name='note-list-create'),
-    path('notes/<int:pk>/', NoteDetailView.as_view(), name='note-detail'),
+    # Endpoints para notas relacionadas à atividade
+    path('activities/<int:activity_id>/notes/', NoteListCreateView.as_view(), name='note-list-create'),  # Adicione activity_id aqui
+    path('activities/<int:activity_id>/notes/<int:pk>/', NoteDetailView.as_view(), name='note-detail'),  # Id para cada nota
 ]
