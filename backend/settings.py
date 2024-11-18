@@ -73,7 +73,7 @@ MIDDLEWARE = [
 from datetime import timedelta
 
 SIMPLE_JWT = {
-    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=40),  # Tempo de expiração do token de acesso
+    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=60),  # Tempo de expiração do token de acesso
     'REFRESH_TOKEN_LIFETIME': timedelta(days=1),     # Tempo de expiração do token de refresh
     'ROTATE_REFRESH_TOKENS': True,                    # Se o refresh token deve ser rotacionado
     'BLACKLIST_AFTER_ROTATION': True,                 # Se o refresh token deve ser desativado após rotação
