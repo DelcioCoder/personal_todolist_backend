@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from rest_framework import generics
-from django.core.exceptions import ValidationError
+from rest_framework.exceptions import NotFound, APIException
 from todolist.models import Activity, Note, Modality
 from rest_framework.permissions import IsAuthenticated
 from .serializers import ActivitySerializer, NoteSerializer
@@ -10,18 +10,6 @@ class ActivityListCreateView(generics.ListCreateAPIView):
     queryset = Activity.objects.all()
     serializer_class = ActivitySerializer
     permission_classes = [IsAuthenticated]
-
-    def perform_create(self, serializer):
-        # Recupera o ID da modalidade da requisição
-        modality_id = self.request.data.get('modality_id')
-
-        try:
-            modality = Modality.objects.get(id=modality_id)
-        except Modality.DoesNotExist:
-            raise ValidationError("Modalidade não encontrada.")
-
-        # Cria a atividade associada à modalidade
-        serializer.save(modality=modality)
 
 
 # Exibe, atualiza ou deleta uma atividade específica
@@ -47,7 +35,9 @@ class NoteListCreateView(generics.ListCreateAPIView):
         try:
             activity = Activity.objects.get(id=activity_id)
         except Activity.DoesNotExist:
-            raise ValidationError("Atividade não encontrada.")
+            raise NotFound("Atividade não encontrada.")
+        except Exception as e:
+            raise APIException(f"Ocorreu um erro inesperado: {e}")
 
         # Cria a nota associada à atividade
         serializer.save(activity=activity)

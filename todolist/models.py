@@ -28,8 +28,8 @@ class Activity(models.Model):
 
         # Limita o número de dias de actividades por modalidade  a no máximo 30 dias, aplicado globalmente ao desafio
 
-        if Activity.objects.filter(day__lte=30, modality=self.modality).count() >= 30: #O sufixo lte vem de less than or equal, ou seja, menor ou igual.
-            raise ValidationError("O número total de dias não pode exceder 30 dias para o desadio.") 
+        if Activity.objects.filter(day__lte=30, modality=self.modality).count() >= 30:
+            raise ValidationError("O número total de dias não pode exceder 30 dias para o desafio.") 
         
 
     def __str__(self):

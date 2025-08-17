@@ -7,9 +7,11 @@ class ModalitySerializer(serializers.ModelSerializer):
         fields = ['id', 'name', 'description']
 
 class NoteSerializer(serializers.ModelSerializer):
+    activity = serializers.PrimaryKeyRelatedField(read_only=True)
+
     class Meta:
         model = Note
-        fields = ['id', 'text', 'date_added']
+        fields = ['id', 'text', 'date_added', 'activity']
 
 class ActivitySerializer(serializers.ModelSerializer):
     modality = ModalitySerializer(read_only=True)  # Somente leitura
